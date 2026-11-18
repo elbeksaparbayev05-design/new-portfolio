@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark scroll-smooth" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('portfolio_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+        })();
+    </script>
+    <title>Elbek Saparbayev — Frontend & Web Developer Portfolio</title>
+    <meta name="description" content="Elbek Saparbayev — Frontend Developer, Web Developer, UI/UX Design va AI texnologiyalari asosida zamonaviy web-loyihalar yaratuvchi.">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body,
+        header,
+        footer,
+        section,
+        article,
+        form,
+        #project-modal,
+        #modal-box {
+            transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+        }
+        html[data-theme="light"] body {
+            background: #f8fafc !important;
+            color: #0f172a !important;
+            color-scheme: light;
+        }
+        html[data-theme="dark"] body { color-scheme: dark; }
+        html[data-theme="light"] [class*="bg-[#070B14]"] { background-color: #f8fafc !important; }
+        html[data-theme="light"] [class*="bg-[#080D18]"] { background-color: #eef2ff !important; }
+        html[data-theme="light"] [class*="bg-[#090E1A]"] { background-color: #f1f5f9 !important; }
+        html[data-theme="light"] [class*="bg-[#0D1322]"] { background-color: #ffffff !important; }
+        html[data-theme="light"] [class*="bg-[#060911]"] { background-color: #eef2f6 !important; }
+        html[data-theme="light"] header,
+        html[data-theme="light"] footer {
+            border-color: #cbd5e1 !important;
+        }
+        html[data-theme="light"] header {
+            background-color: rgba(248, 250, 252, 0.92) !important;
+        }
+        html[data-theme="light"] section[class*="border-slate"] ,
+        html[data-theme="light"] footer,
+        html[data-theme="light"] [class*="border-slate-800"] {
+            border-color: #dbe3ef !important;
+        }
+        html[data-theme="light"] .text-slate-100,
+        html[data-theme="light"] .text-slate-200,
+        html[data-theme="light"] .text-slate-300 {
+            color: #334155 !important;
+        }
+        html[data-theme="light"] .text-slate-400,
+        html[data-theme="light"] .text-slate-500 {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] [class*="placeholder-slate"]::placeholder {
+            color: #94a3b8 !important;
+        }
+        html[data-theme="light"] input,
+        html[data-theme="light"] textarea {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] #project-modal {
+            background-color: rgba(15, 23, 42, 0.55) !important;
+        }
+        html[data-theme="light"] #modal-box {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            border-color: #dbe3ef !important;
+        }
+        html[data-theme="light"] #modal-desc {
+            color: #475569 !important;
+        }
+        html[data-theme="light"] #modal-header,
+        html[data-theme="light"] #modal-close-btn {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] #modal-close-btn {
+            border-color: #cbd5e1 !important;
+        }
+        html[data-theme="light"] #modal-close-btn:hover {
+            background-color: #f1f5f9 !important;
+        }
+        html[data-theme="light"] #mobile-drawer {
+            background-color: #f8fafc !important;
+            border-color: #dbe3ef !important;
+        }
+    </style>
+</head>
+<body class="bg-[#070B14] text-slate-100 antialiased selection:bg-blue-500/30 selection:text-blue-200 transition-colors duration-300">
+    
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#070B14] transition-opacity duration-300">
+        <div class="flex flex-col items-center gap-3">
+            <div class="relative flex h-12 w-12 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10">
+                <span class="text-lg font-extrabold tracking-tight text-blue-500">ES</span>
+                <span class="absolute inset-0 animate-ping rounded-xl border border-blue-500/30"></span>
+            </div>
+            <p id="loader-text" class="text-xs font-medium tracking-widest uppercase text-slate-400">Elbek Saparbayev</p>
+        </div>
+    </div>
+
+    <!-- Ambient Background Glows -->
+    <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+        <div class="absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full blur-[140px] bg-blue-600/15"></div>
+        <div class="absolute top-[45%] left-[-12%] h-[420px] w-[420px] rounded-full blur-[140px] bg-indigo-600/10"></div>
+        <div class="absolute bottom-[-10%] right-[5%] h-[420px] w-[420px] rounded-full blur-[140px] bg-blue-600/12"></div>
+    </div>
+
+    <!-- HEADER / NAVBAR -->
+    <header class="sticky top-0 z-50 border-b border-slate-800/70 bg-[#070B14]/85 backdrop-blur-xl transition-colors duration-300">
+        <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+            <a href="#home" class="group flex items-center gap-2.5 focus:outline-none">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-md shadow-blue-500/25 transition-transform duration-200 group-hover:scale-105">
+                    <span class="text-sm font-extrabold tracking-tighter">ES</span>
+                </div>
+                <span class="text-base font-bold tracking-tight">
+                    Elbek <span class="text-blue-500">Saparbayev</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-6" id="desktop-nav">
+                <!-- Populated via JS -->
+            </nav>
+
+            <!-- Right Controls -->
+            <div class="hidden sm:flex items-center gap-2.5">
+                <!-- Lang Switcher -->
+                <div class="flex items-center rounded-lg border border-slate-800 bg-[#0D1322] p-0.5 text-xs font-semibold" id="lang-switcher">
+                    <button data-lang="uz" class="lang-btn rounded-md px-2 py-1 uppercase transition-all bg-blue-600 text-white">UZ</button>
+                    <button data-lang="ru" class="lang-btn rounded-md px-2 py-1 uppercase transition-all text-slate-400 hover:text-white">RU</button>
+                    <button data-lang="en" class="lang-btn rounded-md px-2 py-1 uppercase transition-all text-slate-400 hover:text-white">EN</button>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" type="button" aria-label="Toggle theme" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322] text-slate-300 transition-all duration-200 hover:scale-105 hover:border-blue-500/50 hover:text-blue-400">
+                    <svg id="theme-icon-sun" class="h-4 w-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <svg id="theme-icon-moon" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+
+                <!-- Contact CTA -->
+                <a href="#contact" id="nav-contact-btn" class="inline-flex items-center gap-2 rounded-lg border border-slate-700/80 bg-[#0D1322] px-3.5 py-2 text-xs font-semibold text-white transition-all duration-200 hover:scale-[1.02] hover:border-blue-500/60 hover:bg-blue-600/10">
+                    <span>Bog'lanish</span>
+                    <svg class="h-3.5 w-3.5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="flex sm:hidden items-center gap-2">
+                <button id="mobile-theme-toggle" type="button" aria-label="Toggle theme" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322] text-slate-300">
+                    <svg id="mobile-theme-icon-moon" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg id="mobile-theme-icon-sun" class="h-4 w-4 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                </button>
+                <button id="mobile-menu-btn" type="button" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322] text-slate-200">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-drawer" class="hidden overflow-hidden border-t border-slate-800 bg-[#090E1A] px-4 py-4 lg:hidden">
+            <div id="mobile-nav-links" class="grid grid-cols-2 gap-2 mb-4"></div>
+            <div class="flex items-center justify-between border-t border-slate-800/60 pt-3">
+                <div class="flex items-center rounded-lg border border-slate-800 bg-[#0D1322] p-0.5 text-xs font-semibold" id="mobile-lang-switcher">
+                    <button data-lang="uz" class="mobile-lang-btn rounded-md px-2.5 py-1 uppercase bg-blue-600 text-white">UZ</button>
+                    <button data-lang="ru" class="mobile-lang-btn rounded-md px-2.5 py-1 uppercase text-slate-400">RU</button>
+                    <button data-lang="en" class="mobile-lang-btn rounded-md px-2.5 py-1 uppercase text-slate-400">EN</button>
+                </div>
+                <a href="#contact" id="mobile-cta" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2 text-xs font-semibold text-white">Bog'lanish</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="relative z-10">
+        <!-- 1. HERO SECTION -->
+        <section id="home" class="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 md:pt-20 md:pb-24 lg:px-8">
+            <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2">
+                        <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
+                        <span id="hero-role" class="text-xs font-bold tracking-[0.2em] text-blue-500 uppercase">FRONTEND & AI WEB DEVELOPER</span>
+                    </div>
+                    <h1 id="hero-title" class="text-3xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-[52px]">
+                        Zamonaviy va aqlli <span class="text-blue-500">web-yechimlar yarataman</span>
+                    </h1>
+                    <p id="hero-subtitle" class="max-w-xl text-sm leading-relaxed sm:text-base text-slate-400">
+                        Salom, men Elbek Saparbayev — Frontend va Web Developer. UI/UX dizayn tamoyillari hamda sun'iy intellekt texnologiyalari yordamida tezkor, moslashuvchan va qulay web-ilovalarni ishlab chiqaman.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-3.5 pt-1">
+                        <a href="#projects" id="hero-btn-projects" class="group inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:bg-blue-500 hover:scale-[1.02]">
+                            <span>Loyihalarimni ko'rish</span>
+                            <svg class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#contact" id="hero-btn-contact" class="inline-flex items-center gap-2 rounded-lg border border-slate-700/80 bg-[#0D1322] px-5 py-3 text-sm font-semibold text-slate-200 transition-all duration-200 hover:scale-[1.02] hover:border-blue-500/50 hover:text-white">
+                            <span>Men bilan bog'lanish</span>
+                            <svg class="h-4 w-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </a>
+                    </div>
+                    <div class="pt-4">
+                        <p id="tech-stack-label" class="mb-3 text-[11px] font-bold tracking-[0.18em] uppercase text-slate-500">ASOSIY TEXNOLOGIYALAR</p>
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-orange-400">HTML</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-sky-400">CSS</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-yellow-400">JS</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-blue-400">TS</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-cyan-400">React</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-teal-400">Tailwind</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-indigo-400">Git</div>
+                            <div class="flex h-9 px-3 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322]/95 text-xs font-bold text-blue-400">AI</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5">
+                    <div class="relative">
+                        <div class="absolute -inset-3 rounded-full bg-gradient-to-tr from-blue-600/30 via-blue-400/10 to-transparent blur-2xl"></div>
+                        <div class="relative h-[320px] w-[260px] sm:h-[370px] sm:w-[300px] overflow-hidden rounded-2xl border-2 border-blue-500/30 bg-[#0D1322] shadow-2xl shadow-blue-950/50">
+                            <img src="photo_2026-03-24_22-38-21.jpg" alt="Elbek Saparbayev" class="h-full w-full object-cover object-top">
+                        </div>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="w-full max-w-[260px] sm:w-[195px] rounded-2xl border border-slate-800/90 bg-[#0D1322]/90 p-4 backdrop-blur-md shadow-xl shadow-black/30">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="text-base font-extrabold leading-none">6+</div>
+                                    <div id="stat-proj-label" class="mt-1 text-[11px] text-slate-400">Web Loyihalar</div>
+                                </div>
+                            </div>
+                            <div class="h-px w-full bg-slate-800/80"></div>
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                                </div>
+                                <div>
+                                    <div class="text-base font-extrabold leading-none">9+</div>
+                                    <div id="stat-tech-label" class="mt-1 text-[11px] text-slate-400">Texnologiyalar</div>
+                                </div>
+                            </div>
+                            <div class="h-px w-full bg-slate-800/80"></div>
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="text-base font-extrabold leading-none">3</div>
+                                    <div id="stat-lang-label" class="mt-1 text-[11px] text-slate-400">Til (UZ / RU / EN)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ABOUT ME -->
+        <section id="about" class="border-t border-slate-800/60 bg-[#080D18]/60 py-16 md:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
+                    <div class="lg:col-span-6 space-y-5">
+                        <p id="about-eyebrow" class="text-xs font-bold tracking-[0.2em] text-blue-500 uppercase">MEN HAQIMDA</p>
+                        <h2 id="about-heading" class="text-2xl font-extrabold leading-snug tracking-tight sm:text-4xl">
+                            Toza kod va zamonaviy dizayn <span class="text-blue-500">uyg‘unligi.</span>
+                        </h2>
+                        <p id="about-desc1" class="text-sm leading-relaxed sm:text-base text-slate-400">
+                            Men Elbek Saparbayev — frontend dasturlash, UI/UX dizayn va sun'iy intellekt vositalari bilan ishlashga ixtisoslashgan web-dasturchiman. Har bir loyihada foydalanuvchi qulayligi, interfeys aniqligi va barcha qurilmalarga moslashuvchanlikni birinchi o'ringa qo'yaman.
+                        </p>
+                        <p id="about-desc2" class="text-sm leading-relaxed sm:text-base text-slate-400">
+                            Hozirda React.js, TypeScript va Tailwind CSS ekotizimida zamonaviy interfeyslar yaratish hamda AI tools va Prompt Engineering orqali g'oyalarni tez va sifatli raqamli mahsulotlarga aylantirish ustida ishlayapman.
+                        </p>
+                        <div class="pt-2">
+                            <a href="#journey" id="about-btn" class="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-[#0D1322] px-4 py-2.5 text-xs font-semibold text-slate-200 hover:text-white transition-all duration-200">
+                                <span>Yo'nalishim bilan tanishish</span>
+                                <svg class="h-3.5 w-3.5 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4 lg:pt-8">
+                        <div class="flex items-start gap-3.5 rounded-xl border border-slate-800/80 bg-[#0D1322]/70 p-4">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div>
+                                <div id="lbl-name" class="text-xs text-slate-400">Ism-sharif</div>
+                                <div class="mt-0.5 text-sm font-bold">Elbek Saparbayev</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3.5 rounded-xl border border-slate-800/80 bg-[#0D1322]/70 p-4">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            </div>
+                            <div>
+                                <div id="lbl-focus" class="text-xs text-slate-400">Asosiy yo‘nalish</div>
+                                <div class="mt-0.5 text-sm font-bold">Frontend & AI Web Dev</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3.5 rounded-xl border border-slate-800/80 bg-[#0D1322]/70 p-4">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            </div>
+                            <div>
+                                <div id="lbl-stack" class="text-xs text-slate-400">Asosiy stek</div>
+                                <div class="mt-0.5 text-sm font-bold">React, TypeScript, Tailwind</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3.5 rounded-xl border border-slate-800/80 bg-[#0D1322]/70 p-4">
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <div>
+                                <div id="lbl-status" class="text-xs text-slate-400">Hamkorlik</div>
+                                <div id="lbl-status-val" class="mt-0.5 text-sm font-bold">Yangi loyihalar uchun ochiq</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SKILLS SECTION -->
+        <section id="skills" class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <p id="skills-eyebrow" class="text-xs font-bold tracking-[0.2em] text-blue-500 uppercase">KO'NIKMALAR VA YO'NALISHLAR</p>
+                <p id="skills-sub" class="mt-2.5 text-sm sm:text-base text-slate-400">Zamonaviy web-loyihalarni yaratishda foydalanadigan asosiy texnologiyalar va yondashuvlarim</p>
+            </div>
+            <div id="skills-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+
+        <!-- 4. PROJECTS SECTION -->
+        <section id="projects" class="border-t border-slate-800/60 bg-[#080D18]/60 py-16 md:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+                    <p id="projects-eyebrow" class="text-xs font-bold tracking-[0.2em] text-blue-500 uppercase">TANLANGAN LOYIHALARIM</p>
+                    <button id="projects-toggle-btn" type="button" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-500 hover:text-blue-400">
+                        <span>Barchasini ko'rish</span>
+                        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. JOURNEY SECTION -->
+        <section id="journey" class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <p id="journey-eyebrow" class="text-xs font-bold tracking-[0.2em] text-blue-500 uppercase">MENING YO'NALISHIM VA RIVOJLANISHIM</p>
+                <p id="journey-sub" class="mt-2.5 text-sm sm:text-base text-slate-400">IT sohasidagi o'rganish jarayonim, hozirgi texnik fokusim va kelajakdagi professional maqsadlarim</p>
+            </div>
+            <div class="relative mx-auto max-w-4xl">
+                <div class="absolute left-4 top-2 bottom-2 w-0.5 md:left-1/2 md:-translate-x-1/2 bg-slate-800"></div>
+                <div id="journey-timeline" class="space-y-8 md:space-y-10">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. CONTACT SECTION -->
+        <section id="contact" class="border-t border-slate-800/60 bg-[#080D18]/60 py-16 md:py-24">
+            <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+                <p id="contact-eyebrow" class="text-center text-xs font-bold tracking-[0.2em] text-blue-500 uppercase mb-12">MEN BILAN BOG'LANISH</p>
+                <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
+                    <div class="lg:col-span-5 space-y-6">
+                        <h2 id="contact-heading" class="text-2xl font-extrabold tracking-tight sm:text-3xl">Yangi g'oya yoki loyiha bormi?</h2>
+                        <p id="contact-desc" class="text-sm leading-relaxed text-slate-400">Frontend dasturlash, zamonaviy web-sayt yaratish yoki AI asosidagi web-loyihalar bo'yicha hamkorlik qilish uchun xabar qoldiring.</p>
+                        <div class="space-y-4 pt-2">
+                            <a href="mailto:elbeksaparbayev05@gmail.com" class="flex items-center gap-3.5 group">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                </div>
+                                <div>
+                                    <div id="lbl-email-title" class="text-xs text-slate-400">Elektron pochta</div>
+                                    <div class="text-sm font-semibold group-hover:text-blue-500 transition-colors">elbeksaparbayev05@gmail.com</div>
+                                </div>
+                            </a>
+                            <a href="https://github.com/elbeksaparbayev05-design" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3.5 group">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                                </div>
+                                <div>
+                                    <div id="lbl-gh-title" class="text-xs text-slate-400">GitHub profili</div>
+                                    <div class="text-sm font-semibold group-hover:text-blue-500 transition-colors">github.com/elbeksaparbayev05-design</div>
+                                </div>
+                            </a>
+                            <div class="flex items-center gap-3.5">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                </div>
+                                <div>
+                                    <div id="lbl-loc-title" class="text-xs text-slate-400">Yo‘nalish</div>
+                                    <div class="text-sm font-semibold">Frontend & AI Web Development</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7">
+                        <form id="contact-form" class="rounded-2xl border border-slate-800/90 bg-[#0D1322]/90 p-6 sm:p-7 space-y-4">
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <input id="form-name" type="text" required placeholder="Ismingiz" class="w-full rounded-lg border border-slate-800 bg-[#070B14] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500">
+                                <input id="form-email" type="email" required placeholder="Email manzilingiz" class="w-full rounded-lg border border-slate-800 bg-[#070B14] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500">
+                            </div>
+                            <input id="form-subject" type="text" placeholder="Mavzu" class="w-full rounded-lg border border-slate-800 bg-[#070B14] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500">
+                            <textarea id="form-message" rows="4" required placeholder="Xabaringizni yozing..." class="w-full resize-none rounded-lg border border-slate-800 bg-[#070B14] px-4 py-3 text-sm text-white placeholder-slate-500 outline-none focus:border-blue-500"></textarea>
+                            <button id="form-send-btn" type="submit" class="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:bg-blue-500">
+                                <span>Xabar yuborish</span>
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                            <div id="form-success" class="hidden items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs font-medium text-emerald-400">
+                                <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                <span id="form-success-text">Xabaringiz muvaffaqiyatli tayyorlandi! Tez orada siz bilan bog'lanaman.</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 border-t border-slate-800/80 bg-[#060911]">
+        <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white">
+                            <span class="text-xs font-extrabold">ES</span>
+                        </div>
+                        <span class="text-base font-bold">Elbek Saparbayev</span>
+                    </div>
+                    <p id="footer-bio" class="text-xs leading-relaxed text-slate-400">Zamonaviy UI/UX dizayn va sun'iy intellekt texnologiyalari asosida tezkor, moslashuvchan web-loyihalar yaratuvchi Frontend Developer.</p>
+                </div>
+                <div>
+                    <h4 id="footer-links-title" class="text-xs font-bold uppercase tracking-wider mb-3">Tezkor havolalar</h4>
+                    <ul id="footer-links-list" class="space-y-2 text-xs"></ul>
+                </div>
+                <div>
+                    <h4 id="footer-connect-title" class="text-xs font-bold uppercase tracking-wider mb-3">Tarmoqlar</h4>
+                    <div class="flex items-center gap-2.5">
+                        <a href="https://github.com/elbeksaparbayev05-design" target="_blank" rel="noopener noreferrer" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322] text-slate-300 hover:border-blue-500/50 hover:text-blue-400">
+                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </a>
+                        <a href="mailto:elbeksaparbayev05@gmail.com" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-[#0D1322] text-slate-300 hover:border-blue-500/50 hover:text-blue-400">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 id="footer-focus-title" class="text-xs font-bold uppercase tracking-wider mb-3">Asosiy yo'nalishlar</h4>
+                    <ul id="footer-focus-list" class="space-y-1.5 text-xs text-slate-400"></ul>
+                </div>
+            </div>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-800/80 pt-6 text-xs text-slate-500">
+                <p id="footer-copy">© 2026 Elbek Saparbayev. Barcha huquqlar himoyalangan.</p>
+                <p id="footer-tech">React, TypeScript & Tailwind CSS asosida yaratildi</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+        <div id="modal-box" class="w-full max-w-lg overflow-hidden rounded-2xl border border-slate-800 bg-[#0D1322] text-white shadow-2xl">
+            <div id="modal-header" class="p-6 text-white relative">
+                <div class="flex items-center justify-between">
+                    <span id="modal-badge" class="rounded-md bg-black/35 px-2.5 py-1 text-xs font-semibold"></span>
+                    <button id="modal-close" class="rounded-lg bg-black/30 p-1.5 text-white/80 hover:text-white">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                <h3 id="modal-title" class="mt-4 text-2xl font-extrabold"></h3>
+                <p id="modal-subtitle" class="mt-1 text-xs text-blue-200"></p>
+            </div>
+            <div class="p-6 space-y-4">
+                <p id="modal-desc" class="text-sm leading-relaxed text-slate-300"></p>
+                <div>
+                    <p id="modal-tech-label" class="text-xs font-bold uppercase tracking-wider text-blue-500 mb-2">Foydalanilgan texnologiyalar</p>
+                    <div id="modal-tech-list" class="flex flex-wrap gap-1.5"></div>
+                </div>
+                <div class="flex items-center justify-end gap-2.5 pt-2">
+                    <a id="modal-gh-btn" href="#" target="_blank" class="hidden inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500">GitHub</a>
+                    <button id="modal-close-btn" class="rounded-lg border border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-800">Yopish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript script -->
+    <script src="script.js"></script>
+</body>
+</html>
